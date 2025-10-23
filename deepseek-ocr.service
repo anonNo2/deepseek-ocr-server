@@ -1,0 +1,30 @@
+[Unit]
+Description=DeepSeek OCR Server
+After=network.target
+
+[Service]
+Type=simple
+User=wuxiangbo
+Group=wuxiangbo
+WorkingDirectory=/home/wuxiangbo/workspace/sribd-gitee/pdf-multi-agents/deepsee-ocr-server
+
+# Environment variables
+EnvironmentFile=/home/wuxiangbo/workspace/sribd-gitee/pdf-multi-agents/deepsee-ocr-server/.env
+
+# Start command
+ExecStart=/usr/bin/python3 /home/wuxiangbo/workspace/sribd-gitee/pdf-multi-agents/deepsee-ocr-server/app.py
+
+# Restart policy
+Restart=always
+RestartSec=10
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# Logging
+StandardOutput=append:/var/log/deepseek-ocr/output.log
+StandardError=append:/var/log/deepseek-ocr/error.log
+
+[Install]
+WantedBy=multi-user.target

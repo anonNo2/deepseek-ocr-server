@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  deepseek-ocr-server:
+    image: deepseek-ocr-server:0.1
+    container_name: deepseek-ocr-server
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount model directory
+      - /data/wuxiangbo/util_models/DeepSeek-OCR:/models:ro
+      # Mount temporary directory for processing
+      - ./temp:/tmp/deepseek-ocr-server
+    environment:
+      # Model configuration
+      - MODEL_PATH=/models
+      - CUDA_VISIBLE_DEVICES=0
+      # Performance settings
+      - MAX_CONCURRENCY=100
+      - NUM_WORKERS=64
+      - GPU_MEMORY_UTILIZATION=0.9
+      # Image processing
+      - BASE_SIZE=1024
+      - IMAGE_SIZE=640
+      - CROP_MODE=True
+      - SKIP_REPEAT=True
+      # Server settings
+      - SERVER_HOST=0.0.0.0
+      - SERVER_PORT=8000
+      - DEBUG=False
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
