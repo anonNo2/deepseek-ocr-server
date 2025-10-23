@@ -7,6 +7,8 @@
 
 一个生产就绪的 FastAPI 服务，使用 DeepSeek OCR 和 GPU 加速将 PDF 文档转换为 Markdown。
 
+[English](README.md) | [简体中文](README_CN.md)
+
 ## 功能特性
 
 - **PDF 转 Markdown** - 高质量的文档转换与 OCR 识别
