@@ -10,7 +10,11 @@ from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 import uvicorn
 from contextlib import asynccontextmanager
+from dotenv import load_dotenv
+import os
 
+# 加载同目录下的 .env 文件
+load_dotenv()
 from pdf_processor import PDFProcessor
 from config import ServerConfig
 
